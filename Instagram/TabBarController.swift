@@ -10,9 +10,9 @@ import Firebase
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
+    //
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
         
         // タブアイコンの色
@@ -40,13 +40,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     // ログインしているかを確認する
+    // 外部引数を指定しない、内部引数はBool型（true or falseの2値をとる型）のanimated
+    // animatedは必要なのか
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        super.viewDidAppear(animated)       // スーパークラスのviewDidAppearを実行
         
-        // currentUserがnilならログインしていない
+        // currentUserがnilならログインしていない。Firebase AuthenticationのAuthクラスを利用
         if Auth.auth().currentUser == nil{
             
             // ログインしていないときの処理
+            // selfはクラスのプロパティを設定する際に使用する
+            // storyboard?オプショナル型になっているのか
             let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "Login")
             
             // モーダル画面遷移

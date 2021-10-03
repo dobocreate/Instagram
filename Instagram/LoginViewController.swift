@@ -11,16 +11,15 @@ import SVProgressHUD
 
 class LoginViewController: UIViewController {
 
-    
-    
     @IBOutlet weak var mailAddressTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var displayNameTextField: UITextField!
     
     // ログインボタンがプッシュされた場合に実行される
+    // any: 型のない型
     @IBAction func handleLoginButton(_ sender: Any) {
-        
-        if let address = mailAddressTextField.text, let password = passwordTextField.text {
+                
+        if let address : String = mailAddressTextField.text, let password = passwordTextField.text {         // このif文は何のため？ nilなら実行しない
 
             // アドレスとパスワード名のいずれかでも入力されていない時は何もしない
             if address.isEmpty || password.isEmpty {
@@ -30,7 +29,9 @@ class LoginViewController: UIViewController {
             // HUDで処理中を表示
             SVProgressHUD.show()
 
-            Auth.auth().signIn(withEmail: address, password: password) { authResult, error in
+            //外部引数については記載しなくてもいいのか。「_ 」
+            // 関数を定義しているわけではない
+            Auth.auth().signIn(withEmail: address, password: password) { authResult, error in       // キーワード：クロージャー、ブロック
                 if let error = error {
                     print("DEBUG_PRINT: " + error.localizedDescription)
                     
@@ -63,6 +64,7 @@ class LoginViewController: UIViewController {
 
             // アドレスとパスワードでユーザー作成。ユーザー作成に成功すると、自動的にログインする
             Auth.auth().createUser(withEmail: address, password: password) { authResult, error in
+                
                 // クロージャ内の処理（サーバ側からアカウント作成処理完了の通知が届いた時に実行される）
                 if let error = error {
                     // エラーがあったら原因をprintして、returnすることで以降の処理を実行せずに処理を終了する
@@ -73,9 +75,13 @@ class LoginViewController: UIViewController {
 
                 // 表示名を設定する
                 let user = Auth.auth().currentUser
+                
                 if let user = user {
+                    
                     let changeRequest = user.createProfileChangeRequest()
+                    
                     changeRequest.displayName = displayName
+                    
                     changeRequest.commitChanges { error in
                         if let error = error {
                             // プロフィールの更新でエラーが発生

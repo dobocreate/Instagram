@@ -8,16 +8,20 @@
 import UIKit
 import CLImageEditor
 
-class ImageSelectViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLIMageEditorDeleggate {
+class ImageSelectViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLImageEditorDelegate {     // UIImagePickerControllerDelegate, UINavigationControllerDelegateとCLImageEditorDelegateのプロトコルを追加
 
     // ライブラリボタンがプッシュされた場合に実行される
     @IBAction func handleLibraryButton(_ sender: Any) {
         
         // ライブラリ（カメラロール）を指定してピッカーを開く
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            
             let pickerController = UIImagePickerController()
+            
             pickerController.delegate = self
+            
             pickerController.sourceType = .photoLibrary
+            
             self.present(pickerController, animated: true, completion: nil)
         }
     }
@@ -27,9 +31,13 @@ class ImageSelectViewController: UIViewController, UIImagePickerControllerDelega
         
         // カメラを指定してピッカーを開く
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            
             let pickerController = UIImagePickerController()
+            
             pickerController.delegate = self
+            
             pickerController.sourceType = .camera
+            
             self.present(pickerController, animated: true, completion: nil)
         }
     }
@@ -58,10 +66,12 @@ class ImageSelectViewController: UIViewController, UIImagePickerControllerDelega
             
             // CLImageEditorにimageを渡して、加工画面を起動する。
             let editor = CLImageEditor(image: image)!
+            
             editor.delegate = self
+            
             editor.modalPresentationStyle = .fullScreen
+            
             picker.present(editor, animated: true, completion: nil)
-
         }
     }
     
@@ -86,7 +96,5 @@ class ImageSelectViewController: UIViewController, UIImagePickerControllerDelega
         // ImageSelectViewController画面を閉じてタブ画面に戻る
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
-
-
 
 }
