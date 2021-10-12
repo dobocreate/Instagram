@@ -118,11 +118,14 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Firestoreからダウンロードしたデータ
         let postData = postArray[indexPath!.row]
         
+        // FireStoreに投稿データを保存する
+        let name = Auth.auth().currentUser?.displayName
+        
         // タップされたセルのテキストフィールドの値を取得する
         // セルのテキストフィールドのデータを取得する方法は？
         if let cell = tableView.cellForRow(at: indexPath!) as? PostTableViewCell {
             
-            comment = postData.name as String?
+            comment = name
             comment = comment! + ": " + cell.commentTextField.text!
             
             // テキストフィールドの値を初期化する

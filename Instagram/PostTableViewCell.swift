@@ -74,11 +74,11 @@ class PostTableViewCell: UITableViewCell {
             let likecount = postData.likecomment2.count - 1
             var c_text:String = ""
             
-            if likecount > 1 {
+            if likecount > 0 {
                 
-                let count: Int = likecount - 1
+                //let count: Int = likecount - 1
                 
-                for i in 0..<count {
+                for i in 0..<likecount {
                     
                     c_text = c_text + "\(postData.likecomment2[i]!)\n"
                     
