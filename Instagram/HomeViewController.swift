@@ -114,17 +114,24 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let point = touch!.location(in: self.tableView)
         let indexPath = tableView.indexPathForRow(at: point)
         
+        // 配列からタップされたインデックスのデータを取り出す
+        // Firestoreからダウンロードしたデータ
+        let postData = postArray[indexPath!.row]
+        
         // タップされたセルのテキストフィールドの値を取得する
+        // セルのテキストフィールドのデータを取得する方法は？
         if let cell = tableView.cellForRow(at: indexPath!) as? PostTableViewCell {
             
-            comment = cell.commentTextField.text
+            comment = postData.name as String?
+            comment = comment! + ": " + cell.commentTextField.text!
+            
+            cell.commentTextField.text = ""
         }
         
         print("comment: \(comment!)")
         
-        // 配列からタップされたインデックスのデータを取り出す
-        // Firestoreからダウンロードしたデータ
-        let postData = postArray[indexPath!.row]
+        // テキストフィールドの値を初期化する
+        
 
         // likesを更新する
         // 更新データを作成する

@@ -72,8 +72,23 @@ class PostTableViewCell: UITableViewCell {
         if postData.likecomment2.count != 0 {
             
             let likecount = postData.likecomment2.count - 1
+            var c_text:String = ""
             
-            commentLabel.text = "\(postData.name!) : \(postData.likecomment2[likecount]!)"
+            if likecount > 1 {
+                
+                let count: Int = likecount - 1
+                
+                for i in 0..<count {
+                    
+                    c_text = c_text + "\(postData.likecomment2[i]!)\n"
+                    
+                    print(i)
+                }
+            }
+            
+            c_text = c_text + "\(postData.likecomment2[likecount]!)"
+
+            commentLabel.text = c_text
         }
         else {
             
