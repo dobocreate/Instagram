@@ -16,28 +16,12 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var captionLabel: UILabel!
     
-    
     @IBOutlet weak var commentTextField: UITextField!
     @IBOutlet weak var commentLabel: UILabel!
     
     var commentText: [String?] = []
     
     @IBOutlet weak var commentButton2: UIButton!
-    
-    // コメント投稿ボタンがプッシュされた時に実行される
-    @IBAction func commentButton(_ sender: Any) {
-        
-        /*
-        commentText.append(commentTextField.text)
-        
-        commentTextField.text! = ""
-        
-        let count = commentText.count - 1
-        
-        print("postTVC commentText \(commentText[count]!)")
-        */
-    }
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -48,23 +32,6 @@ class PostTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-    
-    // いいねコメントの表示
-    func setLikeCommnet(_ postData: PostData) -> PostData {
-        
-        print("textField: \(commentTextField.text!)")
-        
-        postData.likecomment2.append(commentTextField.text!)
-        
-        let count = postData.likecomment2.count - 1
-        commentLabel.text! = postData.likecomment2[count]!
-        
-        print("setLikeComment text: \(postData.likecomment2[count]!), count: \(postData.likecomment2.count)")
-        
-        commentTextField.text! = ""
-        
-        return postData
     }
     
     // PostDataの内容をセルに表示
@@ -100,11 +67,17 @@ class PostTableViewCell: UITableViewCell {
         likeLabel.text = "\(likeNumber)"
         
         // いいねコメントの設定
+        print("いいねカウント\(postData.likecomment2.count)")
+        
         if postData.likecomment2.count != 0 {
             
             let likecount = postData.likecomment2.count - 1
             
-            commentLabel.text = postData.likecomment2[likecount]
+            commentLabel.text = "\(postData.name!) : \(postData.likecomment2[likecount]!)"
+        }
+        else {
+            
+            commentLabel.text = ""
         }
         
         // いいねボタンの表示

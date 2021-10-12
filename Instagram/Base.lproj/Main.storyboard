@@ -287,13 +287,7 @@
                             <constraint firstItem="ycB-qj-U2x" firstAttribute="top" secondItem="GOH-8J-d3f" secondAttribute="top" id="f37-yL-H2Z"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="PZr-hu-J1D">
-                        <barButtonItem key="rightBarButtonItem" title="更新" id="3il-LV-0zn">
-                            <connections>
-                                <action selector="reloadButton:" destination="gDa-Fv-26f" id="fRW-20-noh"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="PZr-hu-J1D"/>
                     <connections>
                         <outlet property="tableView" destination="ycB-qj-U2x" id="cqB-2G-Bw6"/>
                     </connections>
@@ -325,6 +319,7 @@
         <!--ホーム-->
         <scene sceneID="tZp-Lt-lzO">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IBm-zk-Ywy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5L2-gI-Na0" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="ホーム" image="home" id="Pnj-ja-HfJ"/>
                     <toolbarItems/>
@@ -337,7 +332,6 @@
                         <segue destination="gDa-Fv-26f" kind="relationship" relationship="rootViewController" id="kfk-zr-fGK"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IBm-zk-Ywy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-943.47826086956525" y="841.74107142857144"/>
         </scene>

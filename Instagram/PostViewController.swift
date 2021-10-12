@@ -59,6 +59,7 @@ class PostViewController: UIViewController {
                 "name": name!,
                 "caption": self.textField.text!,
                 "date": FieldValue.serverTimestamp(),
+                "likecomment2": [],
                 ] as [String : Any]
             
             // Firestoreにデータを保存

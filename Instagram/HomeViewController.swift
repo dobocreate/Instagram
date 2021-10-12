@@ -11,13 +11,7 @@ import Firebase
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    
-    
-    // 画面を更新する
-    @IBAction func reloadButton(_ sender: Any) {
-        
-        tableView.reloadData()
-    }
+
     
     // 投稿データを格納する配列
     var postArray: [PostData] = []
@@ -95,60 +89,32 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         cell.setPostData(postArray[indexPath.row])
         
-        let row = indexPath.row
-        
-        print("row : \(row)")
+        // let row = indexPath.row
+        // print("row : \(row)")
         
         // セル内のボタンのアクションをソースコードで設定する
         cell.likeButton.addTarget(self, action:#selector(handleButton(_:forEvent:)), for: .touchUpInside)
         
         // 投稿ボタンのアクションをソースコードで設定する
         cell.commentButton2.addTarget(self, action:#selector(handleButton2(_:forEvent:)), for: .touchUpInside)
-        
-        cell.commentTextField.addTarget(self, action: #selector(textFieldDidChange(textField:forEvent:row:)), for: .editingDidEndOnExit)
 
         return cell
     }
-    
-    // セルが選択された時のメソッド
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        print("didSelectRowAt")
-        
-        var comment: String? = nil
-        
-        if let cell = tableView.cellForRow(at: indexPath) as? PostTableViewCell {
-            
-            comment = cell.commentTextField.text
-        }
-        
-        print("comment: \(comment!)")
-    }
-    
-    @objc func textFieldDidChange(textField:UITextField, forEvent event: UIEvent, row:Int) {
-        
-        print("textFieldDidChange reload : \(textField.text!)")
-        
-    }
-    
+
     
     // 投稿ボタンがタップされた時に呼ばれるメソッド
     @objc func handleButton2(_ sender:UIButton, forEvent event: UIEvent) {
         
         print("投稿ボタンがタップされました。")
-        
-        //self.tableView.reloadData()
-        
-        var likecomment2: [String?]
+
+        var comment: String? = nil      // テキストフィールドのデータを格納する
 
         // タップされたセルのインデックスを求める
         let touch = event.allTouches?.first
         let point = touch!.location(in: self.tableView)
         let indexPath = tableView.indexPathForRow(at: point)
         
-        // 特定の番号のセルのテキストフィールド情報を取得する
-        var comment: String? = nil
-        
+        // タップされたセルのテキストフィールドの値を取得する
         if let cell = tableView.cellForRow(at: indexPath!) as? PostTableViewCell {
             
             comment = cell.commentTextField.text
@@ -160,44 +126,43 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         // Firestoreからダウンロードしたデータ
         let postData = postArray[indexPath!.row]
 
-        //self.tableView.reloadData()
-        
-        //postData = cell.setLikeCommnet(postData)
-
         // likesを更新する
         // 更新データを作成する
-        
         print("likecomment2 \(postData.likecomment2.count)")
         
         if postData.likecomment2.count != 0 {
             
-            likecomment2 = postData.likecomment2
-            
-            let comment2: String? = comment
-            
-            likecomment2.append(comment2)
+            postData.likecomment2.append(comment)
             
             let count = postData.likecomment2.count - 1
             
-            print("HomeVC likesComment2 \(count), \(likecomment2)")
-            
+            print("HomeVC likesComment2 \(count), \(postData.likecomment2)")
             
             // likesに更新データを書き込む
             let postRef = Firestore.firestore().collection(Const.PostPath).document(postData.id)
             
             // 配列を丸ごと更新する
-            postRef.updateData(["likecomment2": likecomment2]){ err in
+            postRef.updateData(["likecomment2": postData.likecomment2]){ err in
                     if let err = err {
                         print("Error updating document: \(err)")
                     } else {
                         print("Document successfully updated")
                     }}
+        }
+        else {
             
-            sender.setTitle("完了", for: .normal)
+            postData.likecomment2.append(comment)
             
+            // likesに更新データを書き込む
+            let postRef = Firestore.firestore().collection(Const.PostPath).document(postData.id)
             
-            
-            //postRef.updateData(["likecomment2": updateValue])
+            // 配列を丸ごと更新する
+            postRef.updateData(["likecomment2": postData.likecomment2]){ err in
+                    if let err = err {
+                        print("Error updating document: \(err)")
+                    } else {
+                        print("Document successfully updated")
+                    }}
         }
     }
 
@@ -205,7 +170,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @objc func handleButton(_ sender: UIButton, forEvent event: UIEvent) {
         print("DEBUG_PRINT: likeボタンがタップされました。")
         
-        var likes: [String] = []
+        // var likes: [String] = []
 
         // タップされたセルのインデックスを求める
         let touch = event.allTouches?.first
@@ -220,15 +185,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             // 更新データを作成する
             var updateValue: FieldValue
-            
-            if postData.likes.count != 0 {
-                
-                likes = postData.likes
-                
-                let count = postData.likes.count - 1
-                
-                print("HomeVC likesTXT \(likes[count])")
-            }
             
             if postData.isLiked {
                 
@@ -247,5 +203,4 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             postRef.updateData(["likes": updateValue])
         }
     }
-    
 }
