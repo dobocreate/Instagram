@@ -125,14 +125,12 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             comment = postData.name as String?
             comment = comment! + ": " + cell.commentTextField.text!
             
+            // テキストフィールドの値を初期化する
             cell.commentTextField.text = ""
         }
         
         print("comment: \(comment!)")
         
-        // テキストフィールドの値を初期化する
-        
-
         // likesを更新する
         // 更新データを作成する
         print("likecomment2 \(postData.likecomment2.count)")
